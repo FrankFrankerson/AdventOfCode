@@ -103,6 +103,8 @@ def findPartNr(lines, activeMatrix):
                     partNr[i] = [int(number)]
                 addNumber = False
                 number = ''
+            else:
+                number = ''
         if number and addNumber:
             if i in partNr:
                 partNr[i].append(int(number))
@@ -112,7 +114,7 @@ def findPartNr(lines, activeMatrix):
 
 
 def part1():
-    lines = loadExample()
+    lines = loadInput()
     # parsedLines = []
     # for i, line in enumerate(lines):
     #     parsedLine = parseLine(line)
@@ -123,6 +125,8 @@ def part1():
 
     am = createActiveMatrix(lines)
     pn = findPartNr(lines, am)
+    print(am)
+    print(pn)
     s = 0
     for i in pn.values():
         s += sum(i)
