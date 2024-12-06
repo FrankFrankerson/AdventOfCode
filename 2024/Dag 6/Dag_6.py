@@ -134,8 +134,8 @@ def walk2(start, dir, lines, m):
                 posCounter += 1
                 pos[dir].append(loc)
                 # print('CheckLoop', f'{100*posCounter/m:.2}%', len(checkedLocs), len(OLLocs))
-                for i in range(4):
-                    olLoc = step(loc, (dir+i)%4)
+                for i in range(3):
+                    olLoc = step(loc, (dir+3+i)%4)
                     # olLoc = loc
                     OLok = checkOL(olLoc, lines)                    
                     if olLoc != start and OLok:
