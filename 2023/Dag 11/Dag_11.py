@@ -87,7 +87,24 @@ class Galaxy(Grid):
                     self[n] = self[pos]
                     q.append(n)
         # self.printGrid()         
-       
+
+    def calcDistance(self, pos, emptyRows, emptyCols, offset = 1):
+        baseWidth = abs(pos[1] - self.pos[1])
+        extraWidth = 0
+        for i in emptyCols:
+            if (i >min(pos[1], self.pos[1]) and i < max(pos[1], self.pos[1])):
+                extraWidth += offset
+        width = baseWidth + extraWidth
+
+        baseLength = abs(pos[0] - self.pos[0])
+        extraLength = 0
+        for i in emptyRows:
+            if (i > min(pos[0], self.pos[0]) and i < max(pos[0], self.pos[0])):
+                extraLength += offset
+        length = baseLength + extraLength
+        return width, length
+
+
 
 def parseLines(lines):
     rows = len(lines)
@@ -112,8 +129,7 @@ def parseLines(lines):
                         emptyCols.remove(j)
     return grid, emptyRows, emptyCols, galaxies
 
-
-def part1():
+def part11():
     lines = readFile(1)
     grid, emptyRows, emptyCols, galaxies = parseLines(lines)
     grid.printGrid()
@@ -147,5 +163,37 @@ def part1():
             s += g[g2.pos]
     print(s)
 
-if __name__ == "__main__":
-    part1()
+def part1():
+    lines = readFile(1)
+    grid, emptyRows, emptyCols, galaxies = parseLines(lines)
+
+    s = 0
+    g: Galaxy
+    t = len(galaxies)*(len(galaxies) - 1)
+    c = 0
+    for i, g in enumerate(galaxies[:-1]):
+        for g2 in galaxies[i+1:]:
+            # print(f'{c/t:.2}%')
+            w, l = g.calcDistance(g2.pos, emptyRows, emptyCols)
+            s += w + l
+            c += 1
+    print(s)
+
+def part2():
+    lines = readFile(1)
+    grid, emptyRows, emptyCols, galaxies = parseLines(lines)
+
+    s = 0
+    g: Galaxy
+    t = len(galaxies)*(len(galaxies) - 1)
+    c = 0
+    for i, g in enumerate(galaxies[:-1]):
+        for g2 in galaxies[i+1:]:
+            # print(f'{c/t:.2}%')
+            w, l = g.calcDistance(g2.pos, emptyRows, emptyCols, offset=1000000-1)
+            s += w + l
+            c += 2
+    print(s)
+
+# part1()
+part2()
